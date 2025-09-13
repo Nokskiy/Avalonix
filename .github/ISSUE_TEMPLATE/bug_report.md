@@ -2,7 +2,8 @@
 name: "🐞 Bug Report"
 description: "Please report the issue so we can fix it"
 title: "[Bug]: "
-labels: ["bug", "triage"]
+labels: bug
+assignees: ["Nokskiy"]
 ---
 
 ## Bug Description
@@ -23,6 +24,6 @@ labels: ["bug", "triage"]
 [Screenshots or video]
 
 
-## (Environment)
+## Environment
 - ОС:
 - Version: [example - 1.0.0]
