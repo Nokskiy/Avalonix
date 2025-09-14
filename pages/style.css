@@ -1,0 +1,32 @@
+body {
+    background: linear-gradient(to bottom, #667eea, #851bdb);
+
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    color: white;
+}
+
+.navigation-panel {
+    background-color: #505050;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.navigation-panel button {
+    background-color: #067aff63;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 250ms
+}
+
+.navigation-panel button:hover {
+    background-color: #067aff;
+    /* Более темный зеленый */
+}
