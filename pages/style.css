@@ -1,4 +1,7 @@
 body {
+    opacity: 0;
+    animation: bodyFadeIn 1s ease forwards;
+
     background: linear-gradient(to bottom, #667eea, #851bdb);
 
     min-height: 100vh;
@@ -7,8 +10,23 @@ body {
     color: white;
 }
 
+@keyframes bodyFadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+body>* {
+    opacity: 0;
+    animation: slideUp 1s ease forwards;
+}
+
+.content {
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
 .navigation-panel {
-    background-color: #505050;
     padding: 15px;
     border-radius: 8px;
     text-align: center;
@@ -28,5 +46,23 @@ body {
 
 .navigation-panel button:hover {
     background-color: #067aff;
-    /* Более темный зеленый */
+}
+
+div[avalonix-prev] img {
+    max-width: 100%;
+    border-radius: 10px;
+    height: auto;
+    display: block;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
