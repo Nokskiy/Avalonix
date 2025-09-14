@@ -1,0 +1,68 @@
+body {
+    opacity: 0;
+    animation: bodyFadeIn 1s ease forwards;
+
+    background: linear-gradient(to bottom, #667eea, #851bdb);
+
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    color: white;
+}
+
+@keyframes bodyFadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+body>* {
+    opacity: 0;
+    animation: slideUp 1s ease forwards;
+}
+
+.content {
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.navigation-panel {
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.navigation-panel button {
+    background-color: #067aff63;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 250ms
+}
+
+.navigation-panel button:hover {
+    background-color: #067aff;
+}
+
+div[avalonix-prev] img {
+    max-width: 100%;
+    border-radius: 10px;
+    height: auto;
+    display: block;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
