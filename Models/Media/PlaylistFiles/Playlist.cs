@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Avalonix.Models.Media.PlaylistFiles;
 
-public class Playlist
+public class Playlist : IPlaylist
 {
     private readonly IMediaPlayer _player = null!;
     private readonly IDiskManager _disk = null!;
