@@ -1,0 +1,6 @@
+div[avalonix-prev] img {
+    max-width: 100%;
+    border-radius: 10px;
+    height: auto;
+    display: block;
+}
