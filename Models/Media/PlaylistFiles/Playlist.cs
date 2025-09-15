@@ -13,10 +13,10 @@ namespace Avalonix.Models.Media.PlaylistFiles;
 
 public class Playlist
 {
-    private IMediaPlayer _player = null!;
-    private IDiskManager _disk = null!;
-    private ILogger _logger = null!;
-    private Settings _settings = null!;
+    private readonly IMediaPlayer _player = null!;
+    private readonly IDiskManager _disk = null!;
+    private readonly ILogger _logger = null!;
+    private readonly ISettings _settings = null!;
     private readonly Random _random = new();
     public string Name { get; private set; } = null!;
 
@@ -27,20 +27,13 @@ public class Playlist
     {
     }
 
-    public Playlist(string name, IMediaPlayer player, IDiskManager disk)
-    {
-        Name = name;
-        _player = player;
-        _disk = disk;
-    }
-
-    public async Task InitializeAsync(string name, IMediaPlayer player, IDiskManager disk, ILogger logger)
+    public Playlist(string name, IMediaPlayer player, IDiskManager disk,ILogger logger, ISettings settings)
     {
         Name = name;
         _player = player;
         _disk = disk;
         _logger = logger;
-        _settings = await _disk.GetSettings();
+        _settings = settings;
     }
 
     public async Task AddTrack(Track track)

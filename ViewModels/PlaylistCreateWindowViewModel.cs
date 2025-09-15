@@ -9,13 +9,15 @@ using Microsoft.Extensions.Logging;
 using Avalonix.Models.Media.MediaPlayerFiles;
 using Avalonix.Models.Media.PlaylistFiles;
 using Avalonix.Models.Media.TrackFiles;
+using Avalonix.Models.UserSettings;
 
 namespace Avalonix.ViewModels;
 
 public class PlaylistCreateWindowViewModel(
     ILogger<PlaylistCreateWindowViewModel> logger,
     IDiskManager diskManager,
-    IMediaPlayer player)
+    IMediaPlayer player,
+    ISettings settings)
     : ViewModelBase
 {
     public async Task<string[]?> OpenTrackFileDialogAsync(Window parent)
@@ -67,14 +69,13 @@ public class PlaylistCreateWindowViewModel(
     {
         if (tracksPaths.Count == 0) return;
 
-        var playlist = new Playlist(playlistName, player, diskManager)
+        var playlist = new Playlist(playlistName, player, diskManager, logger, settings)
         {
             PlaylistData = new PlaylistData
             {
                 Tracks = tracksPaths.Select(path => new Track(path)).ToList()
             }
         };
-        await playlist.InitializeAsync(playlistName, player, diskManager,logger);
 
         try
         {
