@@ -217,12 +217,17 @@ checksum = "c08606f8c3cbf4ce6ec8e28fb0014a2c086708fe954eaa885384a6165172e7e8"
 name = "avalonix"
 version = "0.1.0"
 dependencies = [
+ "avalonix-api",
  "serde",
  "serde_json",
  "tauri",
  "tauri-build",
  "tauri-plugin-opener",
 ]
+
+[[package]]
+name = "avalonix-api"
+version = "0.1.0"
 
 [[package]]
 name = "base64"
