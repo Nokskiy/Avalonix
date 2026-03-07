@@ -1,3 +1,5 @@
+use avalonix_api::media::metadata;
+
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
 #[cfg(not(test))]
