@@ -1,8 +1,10 @@
 #![allow(missing_docs)]
 
-use lofty::prelude::*;
 use lofty::probe::Probe;
+use lofty::{prelude::*, properties};
 
+use std::fs::File;
+use std::os::windows::raw::SOCKET;
 use std::path::Path;
 use std::time::Duration;
 
@@ -13,6 +15,8 @@ pub struct Metadata {
     pub album: Option<String>,
     pub genre: Option<String>,
     pub year: Option<u16>,
+    pub lyrics: Option<String>,
+    pub bitrate: Option<u32>,
     pub duration: Duration,
 }
 
@@ -25,6 +29,8 @@ impl Metadata {
             .read()
             .expect("ERROR: Failed to read file!");
 
+        let properties = tagged_file.properties();
+
         let tag = match tagged_file.primary_tag() {
             Some(primary_tag) => primary_tag,
             None => tagged_file.first_tag().expect("ERROR: No tags found!"),
@@ -36,14 +42,20 @@ impl Metadata {
             album: Some(tag.album().unwrap_or_default().to_string()),
             genre: Some(tag.genre().unwrap_or_default().to_string()),
             year: Some(tag.date().unwrap_or_default().year),
-            duration: tagged_file.properties().duration(),
+            lyrics: Some(
+                tag.get_string(ItemKey::Lyrics)
+                    .unwrap_or_default()
+                    .to_string(),
+            ),
+            bitrate: Some(properties.overall_bitrate().unwrap_or_default()),
+            duration: properties.duration(),
         }
     }
 }
 
 #[test]
 fn test_metadata_from() {
-    let path = "D:\\music\\Linkin park\\Meteora\\03 Linkin Park - Somewhere I Belong.mp3";
+    let path = "D:\\music\\metallica\\And justice for all\\08 - To Live is to Die.flac";
     let metadata = Metadata::from(path);
     println!("{:#?}", metadata);
 }
