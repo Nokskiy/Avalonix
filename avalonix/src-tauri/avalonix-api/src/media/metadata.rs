@@ -1,10 +1,8 @@
 #![allow(missing_docs)]
 
+use lofty::prelude::*;
 use lofty::probe::Probe;
-use lofty::{prelude::*, properties};
 
-use std::fs::File;
-use std::os::windows::raw::SOCKET;
 use std::path::Path;
 use std::time::Duration;
 
@@ -20,8 +18,15 @@ pub struct Metadata {
     pub duration: Duration,
 }
 
+#[derive(Debug)]
+pub struct HashableMetadata {
+    pub title: Option<String>,
+    pub artist: Option<String>,
+    pub album: Option<String>,
+}
+
 impl Metadata {
-    fn from(track_path: &str) -> Metadata {
+    pub fn from(track_path: &str) -> Metadata {
         let path = Path::new(&track_path);
 
         let tagged_file = Probe::open(path)
@@ -49,6 +54,27 @@ impl Metadata {
             ),
             bitrate: Some(properties.overall_bitrate().unwrap_or_default()),
             duration: properties.duration(),
+        }
+    }
+}
+
+impl HashableMetadata {
+    pub fn from(track_path: &str) -> HashableMetadata {
+        let path = Path::new(&track_path);
+
+        let tagged_file = Probe::open(path)
+            .expect("ERROR: Bad path provided!")
+            .read()
+            .expect("ERROR: Failed to read file!");
+
+        let tag = match tagged_file.primary_tag() {
+            Some(primary_tag) => primary_tag,
+            None => tagged_file.first_tag().expect("ERROR: No tags found!"),
+        };
+        HashableMetadata {
+            title: Some(tag.title().unwrap_or_default().to_string()),
+            artist: Some(tag.artist().unwrap_or_default().to_string()),
+            album: Some(tag.album().unwrap_or_default().to_string()),
         }
     }
 }
