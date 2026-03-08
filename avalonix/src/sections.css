@@ -20,11 +20,13 @@ body {
 }
 
 .section {
-  padding: 5px;
+  margin: 0;
+  padding: 0;
   display: block;
 }
 
 .section.tabs {
+  min-width: 200px;
   height: 100vh;
   width: 200px;
   border-right: solid var(--borders-color);
@@ -32,13 +34,15 @@ body {
 }
 
 .section.main {
+  width: 120%;
   border-right: solid var(--borders-color);
   background-color: var(--main-background-color);
   flex-grow: 1;
 }
 
 .section.track-info {
-  width: 400px;
+  min-width: 400px;
+  margin-left: auto;
   background-color: var(--track-info-background-color);
 }
 
