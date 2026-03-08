@@ -22,11 +22,11 @@ body {
 .section {
   padding: 5px;
   display: block;
-  white-space: nowrap;
 }
 
 .section.tabs {
-  padding-right: 100px;
+  height: 100vh;
+  width: 200px;
   border-right: solid var(--borders-color);
   background-color: var(--tabs-background-color);
 }
@@ -38,7 +38,7 @@ body {
 }
 
 .section.track-info {
-  padding-right: 200px;
+  width: 400px;
   background-color: var(--track-info-background-color);
 }
 
