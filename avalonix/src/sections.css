@@ -1,10 +1,7 @@
 :root {
-  --background-color: rgb(46, 46, 46);
-  --borders-color: rgb(129, 129, 129);
-  --tabs-background-color: rgb(61, 61, 61);
-  --main-background-color: rgb(31, 31, 31);
-  --track-info-background-color: rgb(41, 41, 41);
-  --playback-background-color: rgb(73, 73, 73);
+  --background-gradient1: rgb(87, 0, 138);
+  --background-gradient2: rgb(27, 27, 27);
+  --borders-color: rgb(49, 49, 49);
 }
 
 body {
@@ -20,6 +17,7 @@ body {
 }
 
 .section {
+  background: linear-gradient(130deg, var(--background-gradient1), 1%, var(--background-gradient2));;
   margin: 0;
   padding: 0;
   display: block;
@@ -30,20 +28,19 @@ body {
   height: 100vh;
   width: 200px;
   border-right: solid var(--borders-color);
-  background-color: var(--tabs-background-color);
+  border-width: 1px;
 }
 
 .section.main {
   width: 120%;
   border-right: solid var(--borders-color);
-  background-color: var(--main-background-color);
+  border-width: 1px;
   flex-grow: 1;
 }
 
 .section.track-info {
   min-width: 400px;
   margin-left: auto;
-  background-color: var(--track-info-background-color);
 }
 
 .section.playback-controll {
@@ -52,18 +49,20 @@ body {
   white-space: nowrap;
 
   display: flex;
-  background-color: var(--playback-background-color);
   position: fixed;
+
   padding-bottom: 50px;
   padding-top: 50px;
+
   bottom: 0;
-  left: 0;
-  right: 0;
+  left: 1%;
+  right: 1%;
   z-index: 100;
 
-  border-radius: 10px;
+  border-radius: 50px;
 
-  border-top: solid var(--borders-color);
+  border: solid var(--borders-color);
+  border-width: 2px;
   
   transform: translateY(70%);
   transition: all 0.2s ease;

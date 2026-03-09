@@ -17,6 +17,7 @@
     color: azure;
 
     transition: all 0.2s ease;
+    user-select: none;
 }
 
 .tab > h3 {
@@ -24,9 +25,12 @@
 }
 
 .tab:hover {
-    background-color: rgb(87, 87, 87);
+    background-color: rgba(87, 87, 87, 0.356);
+    padding-left: 30px;
 }
 
 .tab:active {
-    background-color: rgb(184, 184, 184);
+    background-color: rgba(184, 184, 184, 0.199);
+    border-radius: 10px;
+    padding-left: 50px;
 }
