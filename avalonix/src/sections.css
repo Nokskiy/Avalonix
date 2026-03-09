@@ -1,5 +1,5 @@
 :root {
-  --background-gradient1: rgb(87, 0, 138);
+  --background-gradient1: rgb(38, 30, 44);
   --background-gradient2: rgb(27, 27, 27);
   --borders-color: rgb(49, 49, 49);
 }
@@ -17,7 +17,6 @@ body {
 }
 
 .section {
-  background: linear-gradient(130deg, var(--background-gradient1), 1%, var(--background-gradient2));;
   margin: 0;
   padding: 0;
   display: block;
@@ -51,28 +50,26 @@ body {
   display: flex;
   position: fixed;
 
-  padding-bottom: 50px;
-  padding-top: 50px;
+  padding-bottom: 5px;
+  padding-top: 5px;
 
   bottom: 0;
   left: 1%;
   right: 1%;
   z-index: 100;
 
-  border-radius: 50px;
+  border-radius: 15px;
 
   border: solid var(--borders-color);
   border-width: 2px;
   
-  transform: translateY(70%);
   transition: all 0.2s ease;
 
-  filter: blur(400px);
   filter: brightness(50%);
+
+  background: linear-gradient(130deg, var(--background-gradient1), 1%, var(--background-gradient2));
 }
 
 .section.playback-controll:hover {
-  transform: translateY(0%);
-  filter: blur(0px);
   filter: brightness(1);
 }
