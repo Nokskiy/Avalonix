@@ -1,3 +1,8 @@
+:root {
+    --playbar-btn-hover-color: rgb(96, 51, 117);
+    --playbar-btn-active-color: rgb(128, 59, 160);
+}
+
 .pick-btn {
     margin: 0;
     padding: 0;
@@ -33,4 +38,28 @@
     background-color: rgba(184, 184, 184, 0.199);
     border-radius: 10px;
     padding-left: 50px;
+}
+
+.playbar-btn {
+    border: none;
+    background-color: transparent;
+    user-select: none;
+    display: flex;
+    padding-left: 20px;
+    color: azure;
+
+    font-size: 20px;
+    justify-items: center;
+
+    transition: all 0.1s ease-in;
+}
+
+.playbar-btn:hover {
+    color: var(--playbar-btn-hover-color);
+    padding-bottom: 10px;
+}
+
+.playbar-btn:active {
+    color: var(--playbar-btn-active-color);
+    padding-top: 20px !important;
 }
