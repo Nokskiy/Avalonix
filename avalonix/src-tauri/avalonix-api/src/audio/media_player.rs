@@ -1,11 +1,5 @@
-use rodio::{Decoder, MixerDeviceSink, Player, cpal::Stream};
-use std::{
-    fs::File,
-    io::{BufReader, Sink},
-    sync::Arc,
-    thread,
-    time::Duration,
-};
+use rodio::{Decoder, Player};
+use std::{fs::File, thread, time::Duration};
 
 pub struct MediaPlayer {
     pub player: Player,
