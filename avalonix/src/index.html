@@ -9,61 +9,64 @@
     <link rel="stylesheet" href="scrollbar.css" />
     <link rel="stylesheet" href="img.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/main.js" defer></script>
+    <script src="/tabSwitcher.js" defer></script>
     <title>Tauri App</title>
-    <script type="module" src="/main.js" defer></script>
   </head>
   <body>
     <section class="sections-container">
       <section class="section tabs">
-        <button class="pick-btn">
+        <button onclick="changeTab(0)" class="pick-btn">
             <h3>Main</h3>
         </button>
-        <button class="pick-btn">
+        <button onclick="changeTab(1)" class="pick-btn">
             <h3>Albums</h3>
         </button>
-        <button class="pick-btn">
+        <button onclick="changeTab(2)" class="pick-btn">
             <h3>Artists</h3>
         </button>
-        <button class="pick-btn">
+        <button onclick="changeTab(3)" class="pick-btn">
             <h3>Metadata</h3>
+        </button>
+        <button onclick="changeTab(4)" class="pick-btn">
+            <h3>Settings</h3>
         </button>
       </section>
       
       <section class="section main">
+        <div class="main-container tracks-queue">
+          <h2 class="main-presentable-text">Play queue</h2>
+
+          <button class="pick-btn">
+            <h3>Track name</h3>
+          </button>
+          <button class="pick-btn">
+            <h3>Track name</h3>
+          </button>
+          </button>
+        </div>
+
         <div class="main-container">
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
+          <h2 class="main-presentable-text">Albums list</h2>
+        </div>
+
+        <div class="main-container">
+          <h2 class="main-presentable-text">Artists list</h2>
+        </div>
+
+        <div class="main-container">
+          <h2 class="main-presentable-text">Metadata</h2>
+        </div>
+
+        <div class="main-container">
+          <h2 class="main-presentable-text">Settings</h2>
+          <section class="section musics-path-list">
+              <h2>Path</h2>
+              <h2>Path</h2>
+              <h2>Path</h2>
+              <h2>Path</h2>
+              <h2>Path</h2>
+            </section>
         </div>
       </section>
 
