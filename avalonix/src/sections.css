@@ -85,3 +85,8 @@ body {
   border-radius: 0;
   padding-top: 10px;
 }
+
+.section.musics-path-list {
+  height: 200px;
+  overflow: auto;
+}
