@@ -1,35 +1,71 @@
-use rodio::Decoder;
-use std::{fs::File, io::BufReader};
+use rodio::{Decoder, MixerDeviceSink, Player, cpal::Stream};
+use std::{
+    fs::File,
+    io::{BufReader, Sink},
+    sync::Arc,
+    thread,
+    time::Duration,
+};
 
 pub struct MediaPlayer {
-    pub player: Option<rodio::Player>,
+    pub player: Player,
 }
 
 impl MediaPlayer {
     pub fn new() -> MediaPlayer {
-        MediaPlayer { player: None }
+        let (tx, rx) = std::sync::mpsc::channel();
+
+        thread::spawn(move || {
+            let handle =
+                rodio::DeviceSinkBuilder::open_default_sink().expect("open default audio stream");
+
+            let mixer = handle.mixer();
+            let player = Player::connect_new(mixer);
+
+            _ = tx.send(player);
+
+            loop {}
+        });
+
+        MediaPlayer {
+            player: rx.recv().unwrap(),
+        }
     }
 
-    pub fn play(&mut self, path: &str) {
-        // It is necessary to make playback in a separate stream
+    pub fn play(&mut self, path: String) {
+        let file = File::open(path).expect("Failed to open audio file");
+        let source = Decoder::new(file).unwrap();
 
-        let mut handle =
-            rodio::DeviceSinkBuilder::open_default_sink().expect("open default audio stream");
-        handle.log_on_drop(false);
-        self.player = Some(rodio::Player::connect_new(&handle.mixer()));
+        self.stop();
+        self.player.append(source);
+    }
 
-        let file = File::open(path).unwrap();
-        let source = Decoder::new(BufReader::new(file)).unwrap();
+    pub fn stop(&mut self) {
+        self.player.stop();
+    }
 
-        self.player.as_ref().unwrap().append(source);
-        self.player.as_ref().unwrap().sleep_until_end();
-        self.player.as_ref().unwrap().stop();
+    pub fn pause(&mut self) {
+        self.player.pause();
+    }
+
+    pub fn continue_playing(&mut self) {
+        self.player.play();
+    }
+
+    pub fn seek(&mut self, dur: Duration) {
+        _ = self.player.try_seek(dur);
     }
 }
 
 #[test]
 fn test_play() {
     let mut mp = MediaPlayer::new();
-    mp.play("D:\\music\\Three Days Grace [restored]\\2006 - One-X\\02. Pain.flac");
-    mp.play("D:\\music\\Three Days Grace [restored]\\2006 - One-X\\03. Animal I Have Become.flac");
+    mp.play("D:\\music\\Three Days Grace [restored]\\2006 - One-X\\02. Pain.flac".to_string());
+    thread::sleep(Duration::new(1, 0));
+    mp.pause();
+    thread::sleep(Duration::new(1, 0));
+    mp.continue_playing();
+    thread::sleep(Duration::new(1, 0));
+    mp.seek(Duration::new(120, 0));
+    thread::sleep(Duration::new(1, 0));
 }
