@@ -1,6 +1,7 @@
 # Technologies used
 - [tauri](https://v2.tauri.app/) for GUI
 - [lofty-rs](https://github.com/Serial-ATA/lofty-rs) for metadata processing
+- [rodio](https://github.com/RustAudio/rodio?tab=Apache-2.0-1-ov-file) for audio playing
 
 # Story
 
