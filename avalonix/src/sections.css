@@ -1,0 +1,92 @@
+:root {
+  --background-gradient1: rgb(38, 30, 44);
+  --background-gradient2: rgb(27, 27, 27);
+  --borders-color: rgb(49, 49, 49);
+}
+
+body {
+  user-select: none;
+  overflow: hidden;
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+}
+
+.sections-container {
+  display: flex;
+  align-items: stretch;
+  min-height: 100vh;
+}
+
+.section {
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+.section.tabs {
+  min-width: 200px;
+  height: 100vh;
+  width: 200px;
+  border-right: solid var(--borders-color);
+  border-width: 1px;
+}
+
+.section.main {
+  width: 120%;
+  border-right: solid var(--borders-color);
+  border-width: 1px;
+  flex-grow: 1;
+}
+
+.section.track-info {
+  justify-items: center;
+
+  padding-top: 6%;
+  padding-bottom: 6%;
+  align-items: center;
+
+  color: azure;
+
+  min-width: 400px;
+}
+
+.section.playback-controll {
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+
+  display: flex;
+  position: fixed;
+
+  max-height: 100px;
+
+  padding-bottom: 5px;
+  padding-top: 5px;
+
+  bottom: 0;
+  left: 1%;
+  right: 1%;
+  z-index: 100;
+
+  border-radius: 15px;
+
+  border: solid var(--borders-color);
+  border-width: 2px;
+  
+  transition: all 0.2s ease;
+
+  background: linear-gradient(130deg, var(--background-gradient1), 1%, var(--background-gradient2));
+}
+
+.section.playback-controll:hover {
+  left: 0;
+  right: 0;
+  border-radius: 0;
+  padding-top: 10px;
+}
+
+.section.musics-path-list {
+  height: 200px;
+  overflow: auto;
+}
