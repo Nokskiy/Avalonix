@@ -9,16 +9,17 @@
     <link rel="stylesheet" href="scrollbar.css" />
     <link rel="stylesheet" href="img.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/main.js" defer></script>
+    <script src="/tabSwitcher.js" defer></script>
     <title>Tauri App</title>
-    <script type="module" src="/main.js" defer></script>
   </head>
   <body>
     <section class="sections-container">
       <section class="section tabs">
-        <button class="pick-btn">
+        <button onclick="changeTab(0)" class="pick-btn">
             <h3>Main</h3>
         </button>
-        <button class="pick-btn">
+        <button onclick="changeTab(1)" class="pick-btn">
             <h3>Albums</h3>
         </button>
         <button class="pick-btn">
@@ -30,7 +31,9 @@
       </section>
       
       <section class="section main">
-        <div class="main-container">
+        <div class="main-container tracks-queue">
+          <h2 class="main-presentable-text">Play queue</h2>
+
           <button class="pick-btn">
             <h3>Track name</h3>
           </button>
@@ -46,24 +49,9 @@
           <button class="pick-btn">
             <h3>Track name</h3>
           </button>
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
-          <button class="pick-btn">
-            <h3>Track name</h3>
-          </button>
+        </div>
+        <div class="main-container settings">
+          <h2 class="main-presentable-text">Albums list</h2>
         </div>
       </section>
 

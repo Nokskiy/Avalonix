@@ -1,5 +1,10 @@
 .main-container {
+    display: block;
     height: 60%;
     overflow-y: auto;
     color: azure;
+}
+
+.main-presentable-text {
+    text-align: center;
 }

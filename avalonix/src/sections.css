@@ -5,6 +5,7 @@
 }
 
 body {
+  user-select: none;
   overflow: hidden;
   background-color: var(--background-color);
   margin: 0;
@@ -40,12 +41,14 @@ body {
 
 .section.track-info {
   justify-items: center;
+
+  padding-top: 6%;
+  padding-bottom: 6%;
   align-items: center;
 
   color: azure;
 
   min-width: 400px;
-  margin-left: auto;
 }
 
 .section.playback-controll {
