@@ -39,6 +39,11 @@ body {
 }
 
 .section.track-info {
+  justify-items: center;
+  align-items: center;
+
+  color: azure;
+
   min-width: 400px;
   margin-left: auto;
 }

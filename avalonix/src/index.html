@@ -2,87 +2,88 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" href="main.css" />
     <link rel="stylesheet" href="sections.css" />
     <link rel="stylesheet" href="buttons.css" />
     <link rel="stylesheet" href="main-container.css" />
     <link rel="stylesheet" href="scrollbar.css" />
+    <link rel="stylesheet" href="img.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tauri App</title>
     <script type="module" src="/main.js" defer></script>
   </head>
+  <body>
+    <section class="sections-container">
+      <section class="section tabs">
+        <button class="pick-btn">
+            <h3>Main</h3>
+        </button>
+        <button class="pick-btn">
+            <h3>Albums</h3>
+        </button>
+        <button class="pick-btn">
+            <h3>Artists</h3>
+        </button>
+        <button class="pick-btn">
+            <h3>Metadata</h3>
+        </button>
+      </section>
+      
+      <section class="section main">
+        <div class="main-container">
+          <button class="pick-btn">
+            <h3>Track name</h3>
+          </button>
+          <button class="pick-btn">
+            <h3>Track name</h3>
+          </button>
+          <button class="pick-btn">
+            <h3>Track name</h3>
+          </button>
+          <button class="pick-btn">
+            <h3>Track name</h3>
+          </button>
+          <button class="pick-btn">
+            <h3>Track name</h3>
+          </button>
+          <button class="pick-btn">
+            <h3>Track name</h3>
+          </button>
+          <button class="pick-btn">
+            <h3>Track name</h3>
+          </button>
+          <button class="pick-btn">
+            <h3>Track name</h3>
+          </button>
+          <button class="pick-btn">
+            <h3>Track name</h3>
+          </button>
+          <button class="pick-btn">
+            <h3>Track name</h3>
+          </button>
+          <button class="pick-btn">
+            <h3>Track name</h3>
+          </button>
+        </div>
+      </section>
 
-  <section class="sections-container">
-    <section class="section tabs">
-      <button class="pick-btn">
-          <h3>Main</h3>
-      </button>
-      <button class="pick-btn">
-          <h3>Albums</h3>
-      </button>
-      <button class="pick-btn">
-          <h3>Artists</h3>
-      </button>
-      <button class="pick-btn">
-          <h3>Metadata</h3>
-      </button>
-    </section>
-    
-    <section class="section main">
-      <div class="main-container">
-        <button class="pick-btn">
-          <h3>Track name</h3>
-        </button>
-        <button class="pick-btn">
-          <h3>Track name</h3>
-        </button>
-        <button class="pick-btn">
-          <h3>Track name</h3>
-        </button>
-        <button class="pick-btn">
-          <h3>Track name</h3>
-        </button>
-        <button class="pick-btn">
-          <h3>Track name</h3>
-        </button>
-        <button class="pick-btn">
-          <h3>Track name</h3>
-        </button>
-        <button class="pick-btn">
-          <h3>Track name</h3>
-        </button>
-        <button class="pick-btn">
-          <h3>Track name</h3>
-        </button>
-        <button class="pick-btn">
-          <h3>Track name</h3>
-        </button>
-        <button class="pick-btn">
-          <h3>Track name</h3>
-        </button>
-        <button class="pick-btn">
-          <h3>Track name</h3>
-        </button>
-      </div>
-    </section>
+      <section class="section track-info">
+        <h2 class="track-name">Track name</h2>
+        <img class="album-cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8lSTbrXUdmDeJ6akFnVFRbPTNMZeO3L-RwA&s">
+        <h3 class="album-name">Album name</h3>
+      </section>
 
-    <section class="section track-info">
-      Track info zone
+      <section class="section playback-controll">
+        <button class="playbar-btn">
+          <h1>⏮</h1>
+        </button>
+        <button class="playbar-btn">
+          <h1>⏸</h1>
+        </button>
+        <button class="playbar-btn">
+          <h1>⏭</h1>
+        </button>
+      </section>
     </section>
-
-    <section class="section playback-controll">
-      <button class="playbar-btn">
-        <h1>⏮</h1>
-        
-      </button>
-      <button class="playbar-btn">
-        <h1>⏸</h1>
-      </button>
-      <button class="playbar-btn">
-        <h1>⏭</h1>
-      </button>
-    </section>
-  </section>
-
-  
-  
+  </body>
 </html>

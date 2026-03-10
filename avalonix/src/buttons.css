@@ -3,6 +3,10 @@
     --playbar-btn-active-color: rgb(128, 59, 160);
 }
 
+button {
+    font: inherit;
+}
+
 .pick-btn {
     margin: 0;
     padding: 0;
