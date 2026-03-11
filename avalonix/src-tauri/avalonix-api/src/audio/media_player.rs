@@ -1,65 +1,55 @@
-use rodio::{Decoder, Player};
-use std::{fs::File, thread, time::Duration};
+use rodio::{Decoder, MixerDeviceSink, Player};
+use std::{fs::File, time::Duration};
 
 pub struct MediaPlayer {
-    pub player: Player,
+    pub player: (MixerDeviceSink, Player),
 }
 
 impl MediaPlayer {
     pub fn new() -> MediaPlayer {
-        let (tx, rx) = std::sync::mpsc::channel();
+        println!("Media player created");
+        let handle =
+            rodio::DeviceSinkBuilder::open_default_sink().expect("open default audio stream");
+        let player = Player::connect_new(handle.mixer());
 
-        thread::spawn(move || {
-            let handle =
-                rodio::DeviceSinkBuilder::open_default_sink().expect("open default audio stream");
-
-            let mixer = handle.mixer();
-            let player = Player::connect_new(mixer);
-
-            _ = tx.send(player);
-
-            loop {}
-        });
+        let sink_and_player = (handle, player);
 
         MediaPlayer {
-            player: rx.recv().unwrap(),
+            player: sink_and_player,
         }
     }
 
     pub fn play(&mut self, path: String) {
+        println!("PLAYBACK STARTED");
+
         let file = File::open(path).expect("Failed to open audio file");
         let source = Decoder::new(file).unwrap();
-
         self.stop();
-        self.player.append(source);
+        self.player.1.append(source);
     }
 
     pub fn stop(&mut self) {
-        self.player.stop();
+        self.player.1.stop();
     }
 
     pub fn pause(&mut self) {
-        self.player.pause();
+        println!("PLAYBACK PAUSED");
+        self.player.1.pause();
     }
 
     pub fn continue_playing(&mut self) {
-        self.player.play();
+        println!("PLAYBACK CONTINUED");
+        self.player.1.play();
     }
 
     pub fn seek(&mut self, dur: Duration) {
-        _ = self.player.try_seek(dur);
+        println!("PLAYBACK SEEKED");
+        _ = self.player.1.try_seek(dur);
     }
 }
 
 #[test]
 fn test_play() {
-    let mut mp = MediaPlayer::new();
+    let mut mp: MediaPlayer = MediaPlayer::new();
     mp.play("D:\\music\\Three Days Grace [restored]\\2006 - One-X\\02. Pain.flac".to_string());
-    thread::sleep(Duration::new(1, 0));
-    mp.pause();
-    thread::sleep(Duration::new(1, 0));
-    mp.continue_playing();
-    thread::sleep(Duration::new(1, 0));
-    mp.seek(Duration::new(120, 0));
-    thread::sleep(Duration::new(1, 0));
 }
