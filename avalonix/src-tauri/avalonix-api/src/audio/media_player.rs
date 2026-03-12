@@ -1,7 +1,7 @@
 use std::{
     fs::File,
     io::{BufReader, Error},
-    sync::{Arc, Mutex, mpsc::channel},
+    sync::{Arc, Mutex, RwLock, mpsc::channel},
     thread,
     time::Duration,
 };
@@ -52,7 +52,7 @@ impl<'a> Playback {
 
         Self {
             mixer: sink_handle,
-            last_device_description: dd.description().unwrap(),
+            last_device_description: RwLock::new(dd.description().unwrap()),
             player,
             last_playing_track_path: None,
             last_playing_time: None,
@@ -87,7 +87,23 @@ impl MediaPlayer {
 
 #[test]
 fn test_play() {
-    let mut mp: MediaPlayer = MediaPlayer::new();
+    let player = Arc::new(Mutex::new(MediaPlayer::new()));
+    let clone = player.clone();
 
+    thread::spawn(move || {
+        let host = Host::default();
+        let device = host.default_output_device().unwrap();
+        loop {
+            thread::sleep(Duration::new(1, 0));
+            {
+                let guard = clone.try_lock().unwrap();
+                if guard.playback.as_ref().unwrap().last_device_description
+                    != device.description().unwrap()
+                {
+                    println!(1);
+                }
+            }
+        }
+    });
     loop {}
 }
