@@ -7,7 +7,7 @@ use std::{
 };
 
 use rodio::{
-    DeviceTrait, MixerDeviceSink, Player, Source,
+    Decoder, DeviceTrait, MixerDeviceSink, Player, Source,
     cpal::{self, DeviceDescription, Host, traits::HostTrait},
     mixer::Mixer,
     source::SineWave,
@@ -30,6 +30,33 @@ impl<'a> Playback {
         let sink_handle =
             rodio::DeviceSinkBuilder::open_default_sink().expect("open default audio stream");
 
+        let file = BufReader::new(
+            File::open("D:\\music\\Three Days Grace [restored]\\2006 - One-X\\03. Animal I Have Become.flac").unwrap(),
+        );
+
+        let source = Decoder::new(file).unwrap();
+
+        let mixer = sink_handle.mixer();
+        let player = Player::connect_new(mixer);
+        player.append(source);
+
+        player.get_pos(); // for get last pos
+
+        let host = Host::default();
+
+        Self {
+            mixer: sink_handle,
+            last_device_description: host.default_output_device().unwrap().description().unwrap(),
+            player,
+            last_playing_track_path: None,
+            last_playing_time: None,
+        }
+    }
+
+    fn change_device(&mut self) {
+        let sink_handle =
+            rodio::DeviceSinkBuilder::open_default_sink().expect("open default audio stream");
+
         // Load a sound from a file, using a path relative to Cargo.toml
         let file = BufReader::new(
             File::open("D:\\music\\Three Days Grace [restored]\\2006 - One-X\\03. Animal I Have Become.flac").unwrap(),
@@ -38,25 +65,9 @@ impl<'a> Playback {
         let player = rodio::play(&sink_handle.mixer(), file).unwrap();
 
         let host = Host::default();
-        let dd = host.default_output_device().unwrap();
-        thread::sleep(Duration::new(5, 0));
-        let dd2 = host.default_output_device().unwrap();
-        let a = dd.description().unwrap();
-        if (dd.description().unwrap() != dd2.description().unwrap()) {
-            println!("NOT EQ");
-        } else if (dd.description().unwrap() == dd2.description().unwrap()) {
-            println!("EQ");
-        } else {
-            println!("I DONT KNOW");
-        }
-
-        Self {
-            mixer: sink_handle,
-            last_device_description: RwLock::new(dd.description().unwrap()),
-            player,
-            last_playing_track_path: None,
-            last_playing_time: None,
-        }
+        self.mixer = sink_handle;
+        self.last_device_description = host.default_output_device().unwrap().description().unwrap();
+        self.player = player;
     }
 }
 
@@ -92,18 +103,20 @@ fn test_play() {
 
     thread::spawn(move || {
         let host = Host::default();
-        let device = host.default_output_device().unwrap();
         loop {
+            let device = host.default_output_device().unwrap();
             thread::sleep(Duration::new(1, 0));
             {
-                let guard = clone.try_lock().unwrap();
+                let mut guard = clone.try_lock().unwrap();
                 if guard.playback.as_ref().unwrap().last_device_description
                     != device.description().unwrap()
                 {
-                    println!(1);
+                    let a = guard.playback.as_mut().unwrap();
+                    a.change_device();
                 }
             }
         }
     });
     loop {}
 }
+// it took too much nerves
