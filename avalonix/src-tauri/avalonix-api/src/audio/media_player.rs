@@ -32,8 +32,6 @@ impl<'a> Playback {
         let mixer = sink_handle.mixer();
         let player = Player::connect_new(mixer);
 
-        player.get_pos();
-
         let host = Host::default();
 
         Self {
@@ -69,6 +67,7 @@ impl<'a> Playback {
     fn play(&mut self, file_path: String) {
         let file = BufReader::new(File::open(file_path).unwrap());
         let source = Decoder::new(file).unwrap();
+        self.player.stop();
         self.player.append(source);
     }
 }
