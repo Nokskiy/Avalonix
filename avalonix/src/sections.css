@@ -54,12 +54,11 @@ body {
 .section.playback-controll {
   justify-content: center;
   align-items: center;
-  white-space: nowrap;
 
-  display: flex;
+  display: block;
   position: fixed;
 
-  max-height: 100px;
+  max-height: 150px;
 
   padding-bottom: 5px;
   padding-top: 5px;

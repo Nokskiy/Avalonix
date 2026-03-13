@@ -1,0 +1,10 @@
+.playback-control-playback-controll {
+    display: flex;
+    align-items: center;
+    justify-self: center;
+}
+
+.playback-control-player {
+    display: flex;
+    justify-content: center;
+}

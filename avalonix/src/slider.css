@@ -1,0 +1,15 @@
+input[type="range"] {
+    accent-color: purple;
+
+    transition: all 0.2s ease;
+}
+
+#slider-playback {
+  height: 10px;
+  width: 55%;
+}
+
+#slider-volume {
+  height: 10px;
+  width: 20%;
+}

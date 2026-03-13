@@ -48,7 +48,7 @@ button {
     border: none;
     background-color: transparent;
     user-select: none;
-    display: flex;
+    display: block;
     padding-left: 20px;
     color: azure;
 
@@ -60,10 +60,8 @@ button {
 
 .playbar-btn:hover {
     color: var(--playbar-btn-hover-color);
-    padding-bottom: 10px;
 }
 
 .playbar-btn:active {
     color: var(--playbar-btn-active-color);
-    padding-top: 20px !important;
 }

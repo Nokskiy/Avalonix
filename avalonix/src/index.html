@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="main-container.css" />
     <link rel="stylesheet" href="scrollbar.css" />
     <link rel="stylesheet" href="img.css" />
+    <link rel="stylesheet" href="playback.css" />
+    <link rel="stylesheet" href="slider.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="/main.js" defer></script>
     <script src="/tabSwitcher.js" defer></script>
@@ -77,15 +79,25 @@
       </section>
 
       <section class="section playback-controll">
-        <button class="playbar-btn">
-          <h1>⏮</h1>
-        </button>
-        <button class="playbar-btn">
-          <h1>⏸</h1>
-        </button>
-        <button class="playbar-btn">
-          <h1>⏭</h1>
-        </button>
+        <section class="playback-control-playback-controll">
+          <button class="playbar-btn">
+            <h1>⏮</h1>
+          </button>
+          <button class="playbar-btn">
+            <h1>⏸</h1>
+          </button>
+          <button class="playbar-btn">
+            <h1>⏭</h1>
+          </button>
+        </section>
+
+        <section class="playback-control-player">
+          <input type="range" id="slider-volume" min="0" max="100" step="1" value="100">
+        </section>
+
+        <section class="playback-control-player">
+          <input type="range" id="slider-playback" min="0" max="100" step="1" value="100">
+        </section>
       </section>
     </section>
   </body>
