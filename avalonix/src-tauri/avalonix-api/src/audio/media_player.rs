@@ -49,8 +49,6 @@ impl<'a> Playback {
             rodio::DeviceSinkBuilder::open_default_sink().expect("open default audio stream");
 
         let file_path = self.last_playing_track_path.as_ref().unwrap();
-        println!("{}", file_path);
-        let file = BufReader::new(File::open(file_path).unwrap());
 
         self.player.stop();
 
@@ -101,16 +99,25 @@ impl MediaPlayer {
         thread::spawn(move || {
             let host = Host::default();
             loop {
-                let device = host.default_output_device().unwrap();
+                let device = host.default_output_device();
+                match device {
+                    Some(_) => {}
+                    None => println!("can`t find default device"),
+                }
                 thread::sleep(Duration::new(1, 0));
                 {
-                    let mut guard = clone.try_lock().unwrap();
+                    match device {
+                        Some(device) => {
+                            let mut guard = clone.try_lock().unwrap();
 
-                    if guard.playback.as_ref().unwrap().last_device_description
-                        != device.description().unwrap()
-                    {
-                        let playback: &mut Playback = guard.playback.as_mut().unwrap();
-                        playback.change_device();
+                            if guard.playback.as_ref().unwrap().last_device_description
+                                != device.description().unwrap()
+                            {
+                                let playback: &mut Playback = guard.playback.as_mut().unwrap();
+                                playback.change_device();
+                            }
+                        }
+                        None => {}
                     }
                 }
             }
