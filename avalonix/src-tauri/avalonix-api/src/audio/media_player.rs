@@ -82,6 +82,14 @@ impl<'a> Playback {
     fn seek(&self, pos: Duration) {
         _ = self.player.try_seek(pos);
     }
+
+    fn pause(&self) {
+        self.player.pause();
+    }
+
+    fn cont(&self) {
+        self.player.play();
+    }
 }
 
 impl MediaPlayer {
@@ -98,16 +106,24 @@ impl MediaPlayer {
         playback.play(file_path);
     }
 
-    pub fn stop(&mut self) {
-        self.playback.as_mut().unwrap().stop();
+    pub fn stop(&self) {
+        self.playback.as_ref().unwrap().stop();
     }
 
-    pub fn get_pos(&mut self) -> Duration {
-        self.playback.as_mut().unwrap().get_pos()
+    pub fn get_pos(&self) -> Duration {
+        self.playback.as_ref().unwrap().get_pos()
     }
 
-    pub fn seek(&mut self, pos: Duration) {
-        self.playback.as_mut().unwrap().seek(pos);
+    pub fn seek(&self, pos: Duration) {
+        self.playback.as_ref().unwrap().seek(pos);
+    }
+
+    pub fn pause(&self) {
+        self.playback.as_ref().unwrap().pause();
+    }
+
+    pub fn cont(&self) {
+        self.playback.as_ref().unwrap().cont();
     }
 
     pub fn update(clone: Arc<Mutex<MediaPlayer>>) {
