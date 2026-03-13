@@ -6,7 +6,7 @@ use uuid::Uuid;
 pub struct Track {
     pub id: String,
     pub metadata: Metadata,
-    pub file_path: String, 
+    pub file_path: String,
 }
 
 impl Track {
