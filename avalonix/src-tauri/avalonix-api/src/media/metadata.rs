@@ -1,12 +1,10 @@
 #![allow(missing_docs)]
-
 use lofty::prelude::*;
 use lofty::probe::Probe;
-
 use std::path::Path;
-use std::time::Duration;
+use rkyv::{Archive, Deserialize, Serialize};
 
-#[derive(Debug)]
+#[derive(Archive, Deserialize, Serialize, Debug, Clone)]
 pub struct Metadata {
     pub title: Option<String>,
     pub artist: Option<String>,
@@ -15,73 +13,33 @@ pub struct Metadata {
     pub year: Option<u16>,
     pub lyrics: Option<String>,
     pub bitrate: Option<u32>,
-    pub duration: Duration,
-}
-
-#[derive(Debug)]
-pub struct HashableMetadata {
-    pub title: Option<String>,
-    pub artist: Option<String>,
-    pub album: Option<String>,
+    pub duration_secs: u64, // u64 instead Duration
 }
 
 impl Metadata {
-    pub fn from(track_path: &str) -> Metadata {
+    pub fn from(track_path: &str) -> Result<Self, String> {
         let path = Path::new(&track_path);
-
+        
         let tagged_file = Probe::open(path)
-            .expect("ERROR: Bad path provided!")
+            .map_err(|e| format!("ERROR: Bad path: {}", e))?
             .read()
-            .expect("ERROR: Failed to read file!");
+            .map_err(|e| format!("ERROR: Failed to read file: {}", e))?;
 
         let properties = tagged_file.properties();
-
         let tag = match tagged_file.primary_tag() {
             Some(primary_tag) => primary_tag,
-            None => tagged_file.first_tag().expect("ERROR: No tags found!"),
+            None => tagged_file.first_tag().ok_or("ERROR: No tags found!")?,
         };
 
-        Metadata {
-            title: Some(tag.title().unwrap_or_default().to_string()),
-            artist: Some(tag.artist().unwrap_or_default().to_string()),
-            album: Some(tag.album().unwrap_or_default().to_string()),
-            genre: Some(tag.genre().unwrap_or_default().to_string()),
-            year: Some(tag.date().unwrap_or_default().year),
-            lyrics: Some(
-                tag.get_string(ItemKey::Lyrics)
-                    .unwrap_or_default()
-                    .to_string(),
-            ),
-            bitrate: Some(properties.overall_bitrate().unwrap_or_default()),
-            duration: properties.duration(),
-        }
+        Ok(Metadata {  
+            title: tag.title().map(String::from),
+            artist: tag.artist().map(String::from), 
+            album: tag.album().map(String::from), 
+            genre: tag.genre().map(String::from), 
+            year: tag.date().map(|d| d.year),
+            lyrics: tag.get_string(ItemKey::Lyrics).map(String::from),
+            bitrate: properties.overall_bitrate(),
+            duration_secs: properties.duration().as_secs(),
+        })
     }
-}
-
-impl HashableMetadata {
-    pub fn from(track_path: &str) -> HashableMetadata {
-        let path = Path::new(&track_path);
-
-        let tagged_file = Probe::open(path)
-            .expect("ERROR: Bad path provided!")
-            .read()
-            .expect("ERROR: Failed to read file!");
-
-        let tag = match tagged_file.primary_tag() {
-            Some(primary_tag) => primary_tag,
-            None => tagged_file.first_tag().expect("ERROR: No tags found!"),
-        };
-        HashableMetadata {
-            title: Some(tag.title().unwrap_or_default().to_string()),
-            artist: Some(tag.artist().unwrap_or_default().to_string()),
-            album: Some(tag.album().unwrap_or_default().to_string()),
-        }
-    }
-}
-
-#[test]
-fn test_metadata_from() {
-    let path = "D:\\music\\metallica\\And justice for all\\08 - To Live is to Die.flac";
-    let metadata = Metadata::from(path);
-    println!("{:#?}", metadata);
 }
