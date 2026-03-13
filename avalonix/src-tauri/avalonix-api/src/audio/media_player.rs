@@ -64,11 +64,23 @@ impl<'a> Playback {
         self.player = player;
     }
 
-    fn play(&mut self, file_path: String) {
+    fn play(&self, file_path: String) {
         let file = BufReader::new(File::open(file_path).unwrap());
         let source = Decoder::new(file).unwrap();
         self.player.stop();
         self.player.append(source);
+    }
+
+    fn stop(&self) {
+        self.player.stop();
+    }
+
+    fn get_pos(&self) -> Duration {
+        self.player.get_pos()
+    }
+
+    fn seek(&self, pos: Duration) {
+        _ = self.player.try_seek(pos);
     }
 }
 
@@ -87,11 +99,15 @@ impl MediaPlayer {
     }
 
     pub fn stop(&mut self) {
-        self.playback.as_ref().unwrap().player.stop();
+        self.playback.as_mut().unwrap().stop();
     }
 
     pub fn get_pos(&mut self) -> Duration {
-        self.playback.as_ref().unwrap().player.get_pos()
+        self.playback.as_mut().unwrap().get_pos()
+    }
+
+    pub fn seek(&mut self, pos: Duration) {
+        self.playback.as_mut().unwrap().seek(pos);
     }
 
     pub fn update(clone: Arc<Mutex<MediaPlayer>>) {
