@@ -258,12 +258,11 @@ name = "avalonix-api"
 version = "0.1.0"
 dependencies = [
  "biquad",
- "lofty",
- "rand 0.10.0",
  "bytecheck",
  "colored",
  "dirs",
  "lofty",
+ "rand 0.10.0",
  "rkyv",
  "rodio",
  "serde",
