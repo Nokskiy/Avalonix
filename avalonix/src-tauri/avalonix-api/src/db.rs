@@ -95,7 +95,7 @@ fn test_db() {
 
     let db = MusicDB::open(&hash_path).unwrap();
 
-    let metadata = Metadata::from(music_path).unwrap();
+    let metadata = Metadata::from(music_path, &db).unwrap();
 
     let track = Track::new(music_path, metadata);
 

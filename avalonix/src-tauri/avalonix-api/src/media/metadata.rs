@@ -1,9 +1,15 @@
 #![allow(missing_docs)]
+use lofty::picture::Picture;
 use lofty::prelude::*;
 use lofty::probe::Probe;
 use rkyv::{Archive, Deserialize, Serialize};
+use sled::Db;
 use std::fmt;
 use std::{ffi::os_str::Display, path::Path};
+
+use crate::db::MusicDB;
+use crate::disk_manager;
+use crate::media::track::Track;
 
 #[derive(Archive, Deserialize, Serialize, Debug, Clone)]
 pub struct Metadata {
@@ -14,34 +20,73 @@ pub struct Metadata {
     pub year: Option<u16>,
     pub lyrics: Option<String>,
     pub bitrate: Option<u32>,
+    pub cover: Option<Vec<u8>>,
     pub duration_secs: u64, // u64 instead Duration
 }
 
 impl Metadata {
-    pub fn from(track_path: &str) -> Result<Self, String> {
+    pub fn from(track_path: &str, db: &MusicDB) -> Result<Self, String> {
         let path = Path::new(&track_path);
 
-        let tagged_file = Probe::open(path)
-            .map_err(|e| format!("ERROR: Bad path: {}", e))?
-            .read()
-            .map_err(|e| format!("ERROR: Failed to read file: {}", e))?;
-
-        let properties = tagged_file.properties();
-        let tag = match tagged_file.primary_tag() {
-            Some(primary_tag) => primary_tag,
-            None => tagged_file.first_tag().ok_or("ERROR: No tags found!")?,
+        let all_tracks = match db.get_all_tracks() {
+            Ok(some) => some,
+            Err(_) => Vec::new(),
         };
 
-        Ok(Metadata {
-            title: tag.title().map(String::from),
-            artist: tag.artist().map(String::from),
-            album: tag.album().map(String::from),
-            genre: tag.genre().map(String::from),
-            year: tag.date().map(|d| d.year),
-            lyrics: tag.get_string(ItemKey::Lyrics).map(String::from),
-            bitrate: properties.overall_bitrate(),
-            duration_secs: properties.duration().as_secs(),
-        })
+        let mut track_hash = None;
+
+        for track in all_tracks {
+            if (track.file_path == track_path) {
+                track_hash = Some(track.clone());
+                break;
+            }
+        }
+
+        match track_hash {
+            Some(hash) => {
+                println!("metadata loaded from hash");
+                Ok(hash.metadata.clone())
+            }
+            None => {
+                let tagged_file = Probe::open(path)
+                    .map_err(|e| format!("ERROR: Bad path: {}", e))?
+                    .read()
+                    .map_err(|e| format!("ERROR: Failed to read file: {}", e))?;
+
+                let properties = tagged_file.properties();
+                let tag = match tagged_file.primary_tag() {
+                    Some(primary_tag) => primary_tag,
+                    None => tagged_file.first_tag().ok_or("ERROR: No tags found!")?,
+                };
+
+                let cover_opt = tag.pictures().first();
+
+                let cover: Option<Vec<u8>>;
+
+                match cover_opt {
+                    Some(v) => cover = Some(v.data().to_owned()),
+                    None => cover = None,
+                }
+                let result = Metadata {
+                    title: tag.title().map(String::from),
+                    artist: tag.artist().map(String::from),
+                    album: tag.album().map(String::from),
+                    genre: tag.genre().map(String::from),
+                    year: tag.date().map(|d| d.year),
+                    lyrics: tag.get_string(ItemKey::Lyrics).map(String::from),
+                    bitrate: properties.overall_bitrate(),
+                    cover: cover,
+                    duration_secs: properties.duration().as_secs(),
+                };
+                let track = Track::new(track_path, result.clone());
+                db.save_track(&track).unwrap();
+                drop(track);
+
+                println!("metadata loaded without hash");
+
+                Ok(result)
+            }
+        }
     }
 }
 
@@ -60,4 +105,18 @@ impl fmt::Display for Metadata {
             self.duration_secs,
         )
     }
+}
+
+#[test]
+fn test_metadata_from() {
+    let hash_path = disk_manager::avalonix_special_folder_path();
+
+    let music_path =
+        "D:\\music\\Three Days Grace [restored]\\2006 - One-X\\03. Animal I Have Become.flac";
+
+    let db = MusicDB::open(&hash_path).unwrap();
+
+    let metadata = Metadata::from(music_path, &db);
+
+    println!("{}", metadata.unwrap());
 }
