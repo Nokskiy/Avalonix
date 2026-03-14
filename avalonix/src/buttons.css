@@ -44,24 +44,32 @@ button {
     padding-left: 50px;
 }
 
-.playbar-btn {
+.playback-player-contoll-btn {
+    margin: 5px;
+    border-radius: 100%;
+
     border: none;
+
     background-color: transparent;
-    user-select: none;
-    display: block;
-    padding-left: 20px;
-    color: azure;
 
-    font-size: 20px;
-    justify-items: center;
-
-    transition: all 0.1s ease-in;
+    width: 100px;
+    height: 100px;
 }
 
-.playbar-btn:hover {
-    color: var(--playbar-btn-hover-color);
+.playback-player-contoll-btn img {
+    position: absolute;
+    transform: translate(-50%,-50%);
+
+    width: 70px;
+    height: 70px;
+
+    transition: all 0.1s ease;
 }
 
-.playbar-btn:active {
-    color: var(--playbar-btn-active-color);
+.playback-player-contoll-btn img:hover {
+    width: 80px;
+    height: 80px;
+
+    background-color: rgba(116, 116, 116, 0.219);
+    border-radius: 30%;
 }
