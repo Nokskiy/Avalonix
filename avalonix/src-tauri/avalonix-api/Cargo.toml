@@ -15,4 +15,5 @@ rodio = "0.22.2"
 serde = "1.0.228"
 sled = "0.34.7"
 uuid = { version = "1.22.0", features = ["v4"] }
+glob = "0.3.3"
 
