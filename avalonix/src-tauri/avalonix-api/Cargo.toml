@@ -13,6 +13,7 @@ dirs = "6.0.0"
 rkyv = "0.8.15"
 rodio = "0.22.2"
 serde = "1.0.228"
+serde_json = {version="1.0.99"}
 sled = "0.34.7"
 uuid = { version = "1.22.0", features = ["v4"] }
 

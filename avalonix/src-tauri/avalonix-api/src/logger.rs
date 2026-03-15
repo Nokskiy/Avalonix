@@ -19,3 +19,12 @@ pub fn fatal(msg: &str) {
 pub fn warn(msg: &str) {
     println!("{}", "WARN ".yellow().to_string() + msg);
 }
+
+#[test]
+fn test_logger() {
+    info("Test");
+    error("Test");
+    debug("Test");
+    warn("Test");
+    fatal("Test");
+}
