@@ -53,39 +53,27 @@ body {
 
 .section.playback-controll {
   justify-content: center;
-  align-items: center;
 
-  display: block;
+  display: flex;
   position: fixed;
 
-  max-height: 150px;
-
-  padding-bottom: 5px;
-  padding-top: 5px;
-
   bottom: 0;
-  left: 1%;
-  right: 1%;
-  z-index: 100;
 
-  border-radius: 15px;
+  left: 15px;
+  right: 15px;
 
-  border: solid var(--borders-color);
-  border-width: 2px;
+  height: 150px;
   
+  background: linear-gradient(to right, var(--background-gradient1), var(--background-gradient2));
+
+  border-radius: 10px;
+  border: solid var(--borders-color);  
+
   transition: all 0.2s ease;
-
-  background: linear-gradient(130deg, var(--background-gradient1), 1%, var(--background-gradient2));
 }
 
-.section.playback-controll:hover {
-  left: 0;
+.section.section.playback-controll:hover {
   right: 0;
-  border-radius: 0;
+  left: 0;
   padding-top: 10px;
-}
-
-.section.musics-path-list {
-  height: 200px;
-  overflow: auto;
 }
